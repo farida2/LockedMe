@@ -1,12 +1,20 @@
-
+/**
+ * @author FaridaBelhous
+ * @date 10/01/2020
+ * Phase1-project
+ * simpliLearn
+ * LockedMe.com Application
+ */
 
 package root;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 public class LockedMeMain {
@@ -14,32 +22,14 @@ public class LockedMeMain {
 	public static void main(String[] args) throws IOException {
 		// Create a new scanner 
 		Scanner input = new Scanner(System.in);
-		int option = 0;
-		FileOutputStream[] newFiles = {
-		        new FileOutputStream("file1.txt"),
-		        new FileOutputStream("file19.txt"),
-		        new FileOutputStream("fileAb.txt"),
-		        new FileOutputStream("fileXy.txt"),     
-		        new FileOutputStream("file_ab.txt"), 
-		        new FileOutputStream("file_01.txt"), 
-		        new FileOutputStream("file@1.txt"), 
-		        new FileOutputStream("file4C.txt"),
-		        new FileOutputStream("File33.txt"),
-		        
-		        
-		    };
-
-		
-		
+		int option = 0;	
 		
 		// Printing the application name and the developer details
-		System.out.println("The application name : LockedMe.com ");
-		System.out.println("The developer details : Farida Belhous");
-		System.out.println();
+		welcomeInfo();
 		
+
 		
-		
-		
+		// A do-while loop to give the user options to select
 		do {
 			// Printing the menu
 			menu();
@@ -62,8 +52,9 @@ public class LockedMeMain {
 				
 			case 2:
 				System.out.println("Please enter the file name with its extension ");
-				String aFileName = input.nextLine();
-				addFile(aFileName);
+				
+					String aFileName = input.nextLine();
+					addFile(aFileName);			
 				divider();
 				break;
 				
@@ -82,7 +73,7 @@ public class LockedMeMain {
 				break;
 				
 			case 5:
-				System.out.println("End Program");
+				System.out.println("----Program ended!----");
 				System.exit(0); // Terminate JVM
 				break;
 				
@@ -99,8 +90,23 @@ public class LockedMeMain {
 	} // Main() ends
 	
 	
+	
 	/**
-	 * To display the menu
+	 *  Printing the application name and the developer details
+	 */
+	public static void welcomeInfo() {
+		
+		Date date = new Date();
+		System.out.println("-------------------------------------------------------------");
+		System.out.println("		Welcome to : LockedMe.com App");
+		System.out.println("		The developer details : Farida Belhous");
+		System.out.println("		The date :" + date);
+		System.out.println("-------------------------------------------------------------");
+		System.out.println();
+	}
+	
+	/**
+	 * To printout the menu
 	 */
 	public static void menu() {
 		
@@ -116,7 +122,7 @@ public class LockedMeMain {
 	
 	
 	/**
-	 * Print outs to divide the outputs into clear sections
+	 * Printouts to divide the outputs into clear sections
 	 */
 	public static void divider() {
 		System.out.println("----------------");
@@ -134,29 +140,33 @@ public class LockedMeMain {
 	public static void getListOfFiles(String directoryPath) {
 		File folder = new File(directoryPath);
 		File[] filesList = folder.listFiles();
-		
-		Arrays.sort(filesList, (file1, file2) -> {
-			if (file1.isDirectory() && !file2.isDirectory()) {
-			    return -1;
-			  }
-			  else if (!file1.isDirectory() && file2.isDirectory()) {
-				  return 1;
-			  }
-			  else {
-				return file1.compareTo(file2);
-			}	
-		});
-		
-		for (int i = 0; i < filesList.length; i++) {
-			if(!filesList[i].isHidden()) {
-				if(filesList[i].isDirectory()) {
-					System.out.println("Directory :" + filesList[i].getName());
+		if(!folder.exists()) {
+			System.out.println("The directory is empty");
+		}
+		else {
+			Arrays.sort(filesList, (file1, file2) -> {
+				if (file1.isDirectory() && !file2.isDirectory()) {
+				    return -1;
+				  }
+				  else if (!file1.isDirectory() && file2.isDirectory()) {
+					  return 1;
+				  }
+				  else {
+					return file1.compareTo(file2);
+				}	
+			});
+			  
+			for (int i = 0; i < filesList.length; i++) {
+				if(!filesList[i].isHidden()) {
+					if(filesList[i].isDirectory()) {
+						System.out.println("Directory :" + filesList[i].getName());
+					}
+					else {
+						System.out.println("File :" + filesList[i].getName());
+					}
 				}
-				else {
-					System.out.println("File :" + filesList[i].getName());
-				}
+			 
 			}
-		 
 		}
 		
 	}
@@ -164,14 +174,16 @@ public class LockedMeMain {
 	/**
 	 * To add a new file
 	 * @param fileName : the name of the file with its extension
+	 * @throws FileAlreadyExistsException
 	 * @void ,it prints out a confirmation message when the file is added 
 	 * or a message when there is a file with the same name
 	 * it ignores the case-sensitive
 	 *
 	 */
-	public static void addFile(String fileName) {
+	public static void addFile(String fileName) throws FileAlreadyExistsException {
 		try {
 			File myFile = new File(fileName);
+			
 			if (myFile.createNewFile()) {
 				System.out.println("A new file is created : " + myFile.getName());  
 				
@@ -180,8 +192,7 @@ public class LockedMeMain {
 
 			}
 		}
-		catch (Exception exp) {
-			System.out.println("Error " + exp);
+		catch (IOException exp) {
 			exp.printStackTrace();
 		}
 	}
@@ -194,28 +205,24 @@ public class LockedMeMain {
 	 */
 	public static void searchFile(String fileName) throws FileNotFoundException {
 		
+		
 		File folder = new File(".");
 		File[] filesList = folder.listFiles();
-
 		
-		for (int i = 0; i < filesList.length; i++) {
-		  
-			if(!filesList[i].isHidden()) {
-				if(!filesList[i].isDirectory() && filesList[i].getName().equals(fileName)) {
-					
-						  System.out.println(fileName + "exists");
-						   
-					  }
-				else {
-					System.out.println("FNF");
-				}
-				break;	  
+		for (File file : filesList) {
+			if (file.getName().equals(fileName)) {
+				System.out.println(fileName + " exists");
+				break;
+			} 
+			else {
+				System.out.println(" File Not Found ");
+				break;
 			}
-			  
-			  
-		  }
+		}
 		
 	}
+		
+	
 	
 	
 	/**
@@ -238,10 +245,7 @@ public class LockedMeMain {
 		} catch (Exception exp) {
 			System.out.println("Exception :" );
 			exp.printStackTrace();;
-		}
-		
-          
-      
+		} 
 
 	}
 

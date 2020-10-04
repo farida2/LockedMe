@@ -1,4 +1,4 @@
- 
+  
 SPRINTS IN JIRA: 
 Week 1:
 Spec:
@@ -35,7 +35,7 @@ Code: searchFile(String fileName)
 Test: searchFile(String fileName)
 
 
-DESIGN REQUIREMENTS SPECIFICATIONS DOCUMENT (DRS)
+ DESIGN REQUIREMENTS SPECIFICATIONS DOCUMENT (DRS)
 First Page: Company Lockers Pvt. Ltd.     Team Members: Belhous Farida   
 Project Name:LockedMe.com
 Design Requirements Specifications Document 
@@ -63,7 +63,7 @@ The stakeholders will analyze the current proposal document and provide a decisi
 
 
 Core concepts used:
-2.1 Flowchart: The figure below shows the flowchart for the project.
+2.1 Flowchart: The figure below shows the flowchart for the project. (Check the attached screen shots If it doesn’t appear)
 
 2.2 Core Concepts: for example Data Structures where sorting and searching techniques are used:merge sort to a sort an array of files
 2.3 Algorithms: the algorithms are described in section 4. There will be one algorithm for every single feature. (pseudo code)
@@ -151,7 +151,6 @@ The java code can be found in https://github.com/farida2/LockedMe
 
  
  
-
 
 
 
